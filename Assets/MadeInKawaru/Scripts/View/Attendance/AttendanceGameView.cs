@@ -27,6 +27,7 @@ namespace MadeInKawaru.View.Attendance
         {
             var names = new List<string> { "田中", "山田", "鈴木" }.RandomSort().ToList();
             var index = 0;
+            var interval = time / 4f;
             _names.Add(Player.Player, "あなた");
             foreach (Player player in Enum.GetValues(typeof(Player)))
             {
@@ -43,7 +44,7 @@ namespace MadeInKawaru.View.Attendance
                 _items[value.i].Initialize(value.Key, value.Value, OnReaction);
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(1f / speed), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(interval), cancellationToken: token);
 
             foreach (var (key, value) in _names.RandomSort().Where(v => v.Key != Player.Player))
             {
@@ -51,10 +52,11 @@ namespace MadeInKawaru.View.Attendance
                 _teacherView.Call(value);
                 foreach (var item in _items)
                 {
-                    var delay = Random.Range(0.1f , 0.5f) / speed;
+                    var delay = Random.Range(0.1f, 0.5f) / speed;
                     item.Reaction(key, delay);
                 }
-                await UniTask.Delay(TimeSpan.FromSeconds(1f / speed), cancellationToken: token);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(interval), cancellationToken: token);
             }
 
             return _isClear;

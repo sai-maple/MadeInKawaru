@@ -64,7 +64,7 @@ namespace MadeInKawaru.View.SwitchItem
                 _items[i].IsActive = true;
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(time / speed), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
             return _isClear;
         }
 

@@ -33,7 +33,7 @@ namespace MadeInKawaru.View.Crash
                 item.Initialize(itemSpeed, OnCrash);
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(time / speed), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
             return _result.Values.All(b => b);
         }
 
