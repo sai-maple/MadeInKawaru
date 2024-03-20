@@ -9,6 +9,9 @@ using Random = UnityEngine.Random;
 
 namespace MadeInKawaru.View.Crash
 {
+    /// <summary>
+    /// 「か」を割るゲーム
+    /// </summary>
     public sealed class CrashGameView : MonoBehaviour, IGame
     {
         [SerializeField] private Item[] _items;

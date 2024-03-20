@@ -10,6 +10,9 @@ using Random = UnityEngine.Random;
 
 namespace MadeInKawaru.View.SwitchItem
 {
+    /// <summary>
+    /// 暗転中にアイテムが入れ替わるゲーム
+    /// </summary>
     public sealed class SwitchItemGameView : MonoBehaviour, IGame
     {
         [SerializeField] private Animator _animator;
@@ -49,7 +52,7 @@ namespace MadeInKawaru.View.SwitchItem
             await UniTask.Delay(TimeSpan.FromSeconds(0.3f / speed), cancellationToken: token);
 
             // アイテムの入れ替え
-            _items[Random.Range(0, _items.Count)].Switch(itemSprites.Last());
+            _items.RandomOne().Switch(itemSprites.Last());
             await UniTask.Delay(TimeSpan.FromSeconds(0.5f / speed), cancellationToken: token);
 
             // 暗転開け
