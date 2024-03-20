@@ -23,6 +23,13 @@ namespace MadeInKawaru.View.SwitchItem
         private bool _isClear;
         private static readonly int Hide = Animator.StringToHash("Hide");
 
+        public string Title => "どれが変わった？";
+        
+        public IGame Create(Transform content)
+        {
+            return Instantiate(this, content);
+        }
+
         public async UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default)
         {
             // レベルに応じてアイテムの数を分岐

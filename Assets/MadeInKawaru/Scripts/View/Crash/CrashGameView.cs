@@ -16,6 +16,12 @@ namespace MadeInKawaru.View.Crash
     {
         [SerializeField] private Item[] _items;
         private readonly Dictionary<Item, bool> _result = new();
+        public string Title => "割れ！";
+
+        public IGame Create(Transform content)
+        {
+            return Instantiate(this, content);
+        }
 
         public async UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default)
         {

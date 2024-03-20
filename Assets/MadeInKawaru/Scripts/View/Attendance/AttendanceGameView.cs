@@ -23,6 +23,13 @@ namespace MadeInKawaru.View.Attendance
         private bool _isClear;
         private Player _callTarget;
 
+        public string Title => "代返しろ！";
+
+        public IGame Create(Transform content)
+        {
+            return Instantiate(this, content);
+        }
+
         public async UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default)
         {
             var names = new List<string> { "田中", "山田", "鈴木" }.RandomSort().ToList();

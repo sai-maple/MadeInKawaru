@@ -18,6 +18,13 @@ namespace MadeInKawaru.View.Flower
 
         private static readonly int Bloom = Animator.StringToHash("Bloom");
 
+        public string Title => "咲かせろ！";
+        
+        public IGame Create(Transform content)
+        {
+            return Instantiate(this, content);
+        }
+
         public async UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default)
         {
             _cloudView.Initialize(_target.localPosition.y, OnRain);
