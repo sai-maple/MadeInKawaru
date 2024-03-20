@@ -14,8 +14,9 @@ namespace MadeInKawaru.View.SwitchItem
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private Item _itemPrefab;
-        [SerializeField] private Sprite[] _items;
+        [SerializeField] private Sprite[] _itemSprites;
         [SerializeField] private Transform[] _contents;
+        private List<Item> _items = new();
         private bool _isClear;
         private static readonly int Hide = Animator.StringToHash("Hide");
 
@@ -31,15 +32,15 @@ namespace MadeInKawaru.View.SwitchItem
                 _ => 10,
             };
 
-            var itemSprites = _items.OrderBy(_ => Guid.NewGuid()).ToList();
-            var items = new List<Item>();
+            var itemSprites = _itemSprites.OrderBy(_ => Guid.NewGuid()).ToList();
+            _items = new List<Item>();
             var contents = _contents.OrderBy(_ => Guid.NewGuid()).ToList();
             for (var i = 0; i < num; i++)
             {
                 var item = Instantiate(_itemPrefab, contents[i]);
                 item.Initialize(itemSprites[i], OnItemClick);
                 item.IsActive = false;
-                items.Add(item);
+                _items.Add(item);
             }
 
             // 暗転
@@ -48,7 +49,7 @@ namespace MadeInKawaru.View.SwitchItem
             await UniTask.Delay(TimeSpan.FromSeconds(0.3f / speed), cancellationToken: token);
 
             // アイテムの入れ替え
-            items[Random.Range(0, items.Count)].Switch(itemSprites.Last());
+            _items[Random.Range(0, _items.Count)].Switch(itemSprites.Last());
             await UniTask.Delay(TimeSpan.FromSeconds(0.5f / speed), cancellationToken: token);
 
             // 暗転開け
@@ -57,7 +58,7 @@ namespace MadeInKawaru.View.SwitchItem
 
             for (var i = 0; i < num; i++)
             {
-                items[i].IsActive = false;
+                _items[i].IsActive = true;
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(time / speed), cancellationToken: token);
@@ -67,6 +68,10 @@ namespace MadeInKawaru.View.SwitchItem
         private void OnItemClick(bool isCorrect)
         {
             _isClear = isCorrect;
+            foreach (var item in _items)
+            {
+                item.IsActive = false;
+            }
         }
     }
 }
