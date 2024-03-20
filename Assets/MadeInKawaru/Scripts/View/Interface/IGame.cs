@@ -5,6 +5,6 @@ namespace MadeInKawaru.View.Interface
 {
     public interface IGame
     {
-        UniTask<bool> PlayAsync(float speed, int level, CancellationToken token = default);
+        UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default);
     }
 }

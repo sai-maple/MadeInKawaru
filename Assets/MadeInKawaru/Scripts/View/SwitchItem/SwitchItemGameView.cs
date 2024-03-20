@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using MadeInKawaru.Extensions;
 using MadeInKawaru.View.Interface;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,7 +12,6 @@ namespace MadeInKawaru.View.SwitchItem
 {
     public sealed class SwitchItemGameView : MonoBehaviour, IGame
     {
-        [SerializeField] private float _time = 5;
         [SerializeField] private Animator _animator;
         [SerializeField] private Item _itemPrefab;
         [SerializeField] private Sprite[] _items;
@@ -19,15 +19,15 @@ namespace MadeInKawaru.View.SwitchItem
         private bool _isClear;
         private static readonly int Hide = Animator.StringToHash("Hide");
 
-        public async UniTask<bool> PlayAsync(float speed, int level, CancellationToken token = default)
+        public async UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default)
         {
             // レベルに応じてアイテムの数を分岐
             var num = level switch
             {
-                < 2 => 5, 
-                < 4 => 6, 
-                < 6 => 8, 
-                < 8 => 9, 
+                < 2 => 5,
+                < 4 => 6,
+                < 6 => 8,
+                < 8 => 9,
                 _ => 10,
             };
 
@@ -44,21 +44,23 @@ namespace MadeInKawaru.View.SwitchItem
 
             // 暗転
             _animator.SetBool(Hide, true);
-            await UniTask.Delay(TimeSpan.FromSeconds(0.3f), cancellationToken: token);
+            _animator.Speed(speed);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.3f / speed), cancellationToken: token);
 
             // アイテムの入れ替え
             items[Random.Range(0, items.Count)].Switch(itemSprites.Last());
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f / speed), cancellationToken: token);
 
             // 暗転開け
             _animator.SetBool(Hide, false);
-            await UniTask.Delay(TimeSpan.FromSeconds(0.3f), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.3f / speed), cancellationToken: token);
 
             for (var i = 0; i < num; i++)
             {
                 items[i].IsActive = false;
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(_time / speed), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(time / speed), cancellationToken: token);
             return _isClear;
         }
 
