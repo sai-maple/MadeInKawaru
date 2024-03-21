@@ -8,6 +8,7 @@ namespace MadeInKawaru.View.Interface
     {
         string Title { get; }
         IGame Create(Transform content);
-        UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default);
+        UniTask<bool> PlayAsync(float time, float speed, int stage, CancellationToken token = default);
+        void Close();
     }
 }

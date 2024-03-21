@@ -23,17 +23,17 @@ namespace MadeInKawaru.View.Crash
             return Instantiate(this, content);
         }
 
-        public async UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default)
+        public async UniTask<bool> PlayAsync(float time, float speed, int stage, CancellationToken token = default)
         {
             foreach (var item in _items)
             {
                 _result.Add(item, false);
-                var itemSpeed = level switch
+                var itemSpeed = stage switch
                 {
-                    < 2 => GetSpeed(0.5f, 2),
-                    < 4 => GetSpeed(1f, 2.5f),
-                    < 6 => GetSpeed(1f, 3f),
-                    < 8 => GetSpeed(1f, 4f),
+                    < 5 => GetSpeed(0.5f, 2),
+                    < 10 => GetSpeed(1f, 2.5f),
+                    < 15 => GetSpeed(1f, 3f),
+                    < 20 => GetSpeed(1f, 4f),
                     _ => GetSpeed(1f, 5f),
                 };
                 item.Initialize(itemSpeed, OnCrash);
@@ -41,6 +41,11 @@ namespace MadeInKawaru.View.Crash
 
             await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
             return _result.Values.All(b => b);
+        }
+
+        public void Close()
+        {
+            Destroy(gameObject);
         }
 
         private static float GetSpeed(float min, float max)

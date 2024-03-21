@@ -24,21 +24,21 @@ namespace MadeInKawaru.View.SwitchItem
         private static readonly int Hide = Animator.StringToHash("Hide");
 
         public string Title => "どれが変わった？";
-        
+
         public IGame Create(Transform content)
         {
             return Instantiate(this, content);
         }
 
-        public async UniTask<bool> PlayAsync(float time, float speed, int level, CancellationToken token = default)
+        public async UniTask<bool> PlayAsync(float time, float speed, int stage, CancellationToken token = default)
         {
             // レベルに応じてアイテムの数を分岐
-            var num = level switch
+            var num = stage switch
             {
-                < 2 => 5,
-                < 4 => 6,
-                < 6 => 8,
-                < 8 => 9,
+                < 5 => 5,
+                < 10 => 6,
+                < 15 => 8,
+                < 20 => 9,
                 _ => 10,
             };
 
@@ -73,6 +73,11 @@ namespace MadeInKawaru.View.SwitchItem
 
             await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
             return _isClear;
+        }
+
+        public void Close()
+        {
+            Destroy(gameObject);
         }
 
         private void OnItemClick(bool isCorrect)

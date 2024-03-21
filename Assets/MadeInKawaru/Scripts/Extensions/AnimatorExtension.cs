@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MadeInKawaru.Extensions
 {
-    public static class AnimatorExtensions
+    public static class AnimatorExtension
     {
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
 
