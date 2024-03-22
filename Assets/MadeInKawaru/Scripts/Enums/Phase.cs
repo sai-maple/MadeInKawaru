@@ -2,10 +2,10 @@ namespace MadeInKawaru.Enums
 {
     public enum Phase
     {
-        Title,
-        Ready,
-        Intro,
+        Splash,
+        Menu,
+        Ranking,
+        Option,
         Game,
-        Result
     }
 }

@@ -27,10 +27,19 @@ namespace MadeInKawaru.Presenter.Game
         private readonly CompositeDisposable _disposable = new();
         private readonly CancellationTokenSource _cancellation = new();
 
+        public GamePresenter(PhaseEntity phaseEntity, StageEntity stageEntity, LifeEntity lifeEntity,
+            GameMenuView gameMenuView)
+        {
+            _phaseEntity = phaseEntity;
+            _stageEntity = stageEntity;
+            _lifeEntity = lifeEntity;
+            _gameMenuView = gameMenuView;
+        }
+
         public void Initialize()
         {
             _phaseEntity.OnPhaseChangedAsObservable()
-                .Where(phase => phase == Phase.Ready)
+                .Where(phase => phase == Phase.Game)
                 .Subscribe(_ => PlayAsync().Forget())
                 .AddTo(_disposable);
         }
@@ -78,8 +87,8 @@ namespace MadeInKawaru.Presenter.Game
 
             // ゲームオーバー
             await _gameMenuView.GameOverAsync(_cancellation.Token);
-            // タイトルに戻る
-            _phaseEntity.OnNext(Phase.Title);
+            // メニューに戻る
+            _phaseEntity.OnNext(Phase.Menu);
         }
 
         public void Dispose()
