@@ -6,7 +6,7 @@ namespace MadeInKawaru.Entity.Common
 {
     public sealed class PhaseEntity : IDisposable
     {
-        private readonly ReactiveProperty<Phase> _phase = new();
+        private readonly ReactiveProperty<Phase> _phase = new(Phase.Menu);
 
         public IObservable<Phase> OnPhaseChangedAsObservable()
         {
