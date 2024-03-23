@@ -12,14 +12,17 @@ namespace MadeInKawaru.View.Flower
         [SerializeField] private RectTransform _rectTransform;
         private Vector2 _startTap;
         private Vector3 _start;
-        private float _targetY;
+        private float _targetX;
         private Action _callback;
 
         private bool _isLock;
 
-        public void Initialize(float targetY, Action callBack)
+        public void Initialize(float targetX, Action callBack)
         {
-            _targetY = targetY;
+            _targetX = targetX;
+            var local = _rectTransform.localPosition;
+            local.x = targetX * -1;
+            _rectTransform.localPosition = local;
             _callback = callBack;
         }
 
@@ -34,9 +37,9 @@ namespace MadeInKawaru.View.Flower
             if (_isLock) return;
             var delta = eventData.position - _startTap;
             var position = _start;
-            position.y += delta.y;
+            position.x += delta.x;
             _rectTransform.transform.localPosition = position;
-            if (Mathf.Abs(position.y - _targetY) > 10) return;
+            if (Mathf.Abs(position.x - _targetX) > 50) return;
             _isLock = true;
             _callback.Invoke();
         }

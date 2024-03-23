@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using MadeInKawaru.View.Interface;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace MadeInKawaru.View.Flower
 {
@@ -27,8 +28,12 @@ namespace MadeInKawaru.View.Flower
 
         public async UniTask<bool> PlayAsync(float time, float speed, int stage, CancellationToken token = default)
         {
-            _cloudView.Initialize(_target.localPosition.y, OnRain);
-            await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
+            _animator.SetBool(Bloom, false);
+            var flower = _target.localPosition;
+            flower.x = Random.Range(0, 2) == 0 ? 350 : -350;
+            _target.localPosition = flower;
+            _cloudView.Initialize(flower.x, OnRain);
+            await UniTask.Delay(TimeSpan.FromSeconds(time / speed), cancellationToken: token);
             return _isClear;
         }
 
@@ -39,7 +44,7 @@ namespace MadeInKawaru.View.Flower
 
         private void OnRain()
         {
-            _animator.SetTrigger(Bloom);
+            _animator.SetBool(Bloom, true);
             _isClear = true;
             // todo audio
         }
