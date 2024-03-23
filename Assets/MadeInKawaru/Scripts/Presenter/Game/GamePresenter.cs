@@ -99,6 +99,7 @@ namespace MadeInKawaru.Presenter.Game
                 _stageEntity.OnClear(result);
                 _lifeEntity.OnClear(result);
                 _gameMenuView.LifeView(_lifeEntity.Life);
+                await _gameMenuView.ReactionAsync(result, _cancellation.Token);
             }
 
             // ゲームオーバー

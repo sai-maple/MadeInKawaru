@@ -16,6 +16,8 @@ namespace MadeInKawaru.View.Game
         [SerializeField] private PlayableDirector _titleDirector;
         [SerializeField] private PlayableDirector _gameOver;
         [SerializeField] private PlayableDirector _speedUp;
+        [SerializeField] private PlayableDirector _correct;
+        [SerializeField] private PlayableDirector _incorrect;
         [SerializeField] private Animator _life;
         private static readonly int Life = Animator.StringToHash("Life");
 
@@ -33,6 +35,12 @@ namespace MadeInKawaru.View.Game
         public async UniTask SpeedUpAsync(float speed, CancellationToken token = default)
         {
             await _speedUp.PlayWithSpeedAsync(speed, token: token);
+        }
+
+        public async UniTask ReactionAsync(bool result, CancellationToken token = default)
+        {
+            var director = result ? _correct : _incorrect;
+            await director.PlayAsync(token: token);
         }
 
         public void LifeView(int life)
