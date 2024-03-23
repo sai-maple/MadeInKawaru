@@ -9,6 +9,7 @@ using MadeInKawaru.Extensions;
 using MadeInKawaru.View.Game;
 using MadeInKawaru.View.Interface;
 using UniRx;
+using UnityEngine;
 using VContainer.Unity;
 
 namespace MadeInKawaru.Presenter.Game
@@ -24,20 +25,27 @@ namespace MadeInKawaru.Presenter.Game
         private readonly List<IGame> _games;
         private readonly GameTimerView _gameTimerView;
         private readonly GameMenuView _gameMenuView;
+        private readonly CanvasGroup _canvasGroup;
         private readonly CompositeDisposable _disposable = new();
         private readonly CancellationTokenSource _cancellation = new();
 
-        public GamePresenter(PhaseEntity phaseEntity, StageEntity stageEntity, LifeEntity lifeEntity,
-            GameMenuView gameMenuView)
+        public GamePresenter(PhaseEntity phaseEntity, StageEntity stageEntity, LifeEntity lifeEntity, List<IGame> games,
+            GameTimerView gameTimerView, GameMenuView gameMenuView, CanvasGroup canvasGroup)
         {
             _phaseEntity = phaseEntity;
             _stageEntity = stageEntity;
             _lifeEntity = lifeEntity;
+            _games = games;
+            _gameTimerView = gameTimerView;
             _gameMenuView = gameMenuView;
+            _canvasGroup = canvasGroup;
         }
 
         public void Initialize()
         {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
             _phaseEntity.OnPhaseChangedAsObservable()
                 .Where(phase => phase == Phase.Game)
                 .Subscribe(_ => PlayAsync().Forget())
@@ -46,9 +54,12 @@ namespace MadeInKawaru.Presenter.Game
 
         private async UniTaskVoid PlayAsync()
         {
+            _canvasGroup.alpha = 1;
             _stageEntity.Initialize();
             _lifeEntity.Initialize();
             await _gameMenuView.FadeAsync(1, token: _cancellation.Token);
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
 
             while (_lifeEntity.IsLiving)
             {
@@ -87,6 +98,9 @@ namespace MadeInKawaru.Presenter.Game
 
             // ゲームオーバー
             await _gameMenuView.GameOverAsync(_cancellation.Token);
+            _canvasGroup.alpha = 0;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
             // メニューに戻る
             _phaseEntity.OnNext(Phase.Menu);
         }
