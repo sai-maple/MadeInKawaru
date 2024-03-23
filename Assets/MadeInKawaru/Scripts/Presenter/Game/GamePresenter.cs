@@ -57,6 +57,8 @@ namespace MadeInKawaru.Presenter.Game
             _canvasGroup.alpha = 1;
             _stageEntity.Initialize();
             _lifeEntity.Initialize();
+            _gameMenuView.LifeView(_lifeEntity.Life);
+            _gameTimerView.FadeAsync(0, 0).Forget();
             await _gameMenuView.FadeAsync(1, token: _cancellation.Token);
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
@@ -78,6 +80,8 @@ namespace MadeInKawaru.Presenter.Game
                 await _gameMenuView.PlayAsync(game.Title, _stageEntity.Speed, _cancellation.Token);
                 // 拡大 ゲーム用Canvasの表示
                 _gameTimerView.FadeAsync(1f).Forget();
+                _gameMenuView.FadeAsync(0, token: _cancellation.Token).Forget();
+
                 // タイマーに時間を
                 _gameTimerView.TimerAsync(5, _stageEntity.Speed, _cancellation.Token).Forget();
                 var result = await game.PlayAsync(5, _stageEntity.Speed, stage, _cancellation.Token);
@@ -86,6 +90,7 @@ namespace MadeInKawaru.Presenter.Game
                 // ゲーム終了
                 UniTask.Create(async () =>
                 {
+                    _gameMenuView.FadeAsync(1, token: _cancellation.Token).Forget();
                     await _gameTimerView.FadeAsync(0);
                     game.Close();
                 }).Forget();

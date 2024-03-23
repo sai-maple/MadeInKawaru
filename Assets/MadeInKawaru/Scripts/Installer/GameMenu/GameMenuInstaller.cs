@@ -11,6 +11,7 @@ namespace MadeInKawaru.Installer.GameMenu
 {
     public sealed class GameMenuInstaller : LifetimeScope
     {
+        [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private GameMenuView _gameMenuView;
         [SerializeField] private GameTimerView _timerView;
         [SerializeField] private List<GameObject> _games;
@@ -18,9 +19,10 @@ namespace MadeInKawaru.Installer.GameMenu
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterEntryPoint<GamePresenter>();
+            builder.RegisterComponent(_canvasGroup);
             builder.RegisterComponent(_gameMenuView);
             builder.RegisterComponent(_timerView);
-            builder.RegisterComponent(_games.Select(obj => obj.GetComponent<IGame>()));
+            builder.RegisterComponent(_games.Select(obj => obj.GetComponent<IGame>()).ToList());
         }
     }
 }

@@ -532,26 +532,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1991153413276009753, guid: 6266efb6c86534d8ebc39a7fbfc4d368, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1991153413276009753, guid: 6266efb6c86534d8ebc39a7fbfc4d368, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4039932809269182559, guid: 6266efb6c86534d8ebc39a7fbfc4d368, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4039932809269182559, guid: 6266efb6c86534d8ebc39a7fbfc4d368, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4039932809269182559, guid: 6266efb6c86534d8ebc39a7fbfc4d368, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4546149293502361755, guid: 6266efb6c86534d8ebc39a7fbfc4d368, type: 3}
       propertyPath: m_Name
       value: Game

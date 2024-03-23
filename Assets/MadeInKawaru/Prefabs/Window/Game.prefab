@@ -145,7 +145,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513707406790667664}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.06
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -548,7 +548,7 @@ Animator:
   m_GameObject: {fileID: 1888290991049975070}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c2442f386328740d98d6be674dfa5170, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -670,7 +670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 31.449}
+  m_AnchoredPosition: {x: 0, y: 30}
   m_SizeDelta: {x: 1095, y: 137}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &5529558018599082531
@@ -817,7 +817,7 @@ Animator:
   m_GameObject: {fileID: 2063108193489705170}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e0f8bb8e4ed69401192e2c3984f37ae0, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1463,7 +1463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 800}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8239940893468274508
@@ -1632,9 +1632,11 @@ MonoBehaviour:
     TypeName: MadeInKawaru.Installer.Common.RootInstaller
   autoRun: 1
   autoInjectGameObjects: []
+  _canvasGroup: {fileID: 4053646599097991329}
   _gameMenuView: {fileID: 3202201060185560914}
   _timerView: {fileID: 3983746275927836377}
-  _games: []
+  _games:
+  - {fileID: 6851369252674494533, guid: 153b8aa57b54c4e6f948dddc9b7a3e4b, type: 3}
 --- !u!1 &4805494015312946253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,7 +1770,7 @@ Animator:
   m_GameObject: {fileID: 4809996857156161491}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 60dcfc2de1d7f42f9a48cc9ed03cf3b6, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2098,6 +2100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0a005567d9416baedb25e09c713ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _content: {fileID: 2073895708478675164}
   _canvasGroup: {fileID: 6204411472883820741}
   _timer: {fileID: 5529558018599082531}
 --- !u!225 &6204411472883820741
@@ -3024,7 +3027,7 @@ Animator:
   m_GameObject: {fileID: 8581199065665707110}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c993c3bbafdb54d2b90951d203e17bda, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

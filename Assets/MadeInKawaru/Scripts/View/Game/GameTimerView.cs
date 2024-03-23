@@ -2,17 +2,17 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MadeInKawaru.View.Game
 {
     public sealed class GameTimerView : MonoBehaviour
     {
+        [SerializeField] private RectTransform _content;
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private Animator _timer;
         private static readonly int Timer = Animator.StringToHash("Timer");
 
-        public Transform Transform => transform;
+        public RectTransform Transform => _content;
 
         public async UniTask FadeAsync(float endValue, float duration = 0.3f, CancellationToken token = default)
         {

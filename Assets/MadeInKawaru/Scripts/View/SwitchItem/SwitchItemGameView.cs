@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 using MadeInKawaru.Extensions;
 using MadeInKawaru.View.Interface;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace MadeInKawaru.View.SwitchItem
 {
@@ -37,9 +36,9 @@ namespace MadeInKawaru.View.SwitchItem
             {
                 < 5 => 5,
                 < 10 => 6,
-                < 15 => 8,
-                < 20 => 9,
-                _ => 10,
+                < 15 => 7,
+                < 20 => 8,
+                _ => 9,
             };
 
             var itemSprites = _itemSprites.OrderBy(_ => Guid.NewGuid()).ToList();
@@ -52,6 +51,8 @@ namespace MadeInKawaru.View.SwitchItem
                 item.IsActive = false;
                 _items.Add(item);
             }
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(1f / speed), cancellationToken: token);
 
             // 暗転
             _animator.SetBool(Hide, true);
@@ -71,7 +72,7 @@ namespace MadeInKawaru.View.SwitchItem
                 _items[i].IsActive = true;
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds((time - 2.1f) / speed), cancellationToken: token);
             return _isClear;
         }
 

@@ -27,14 +27,12 @@ namespace MadeInKawaru.View.Game
         public async UniTask PlayAsync(string title, float speed, CancellationToken token = default)
         {
             _title.text = title;
-            _titleDirector.Speed(speed);
-            await _titleDirector.PlayAsync(token: token);
+            await _titleDirector.PlayWithSpeedAsync(speed, token: token);
         }
         
         public async UniTask SpeedUpAsync(float speed, CancellationToken token = default)
         {
-            _speedUp.Speed(speed);
-            await _speedUp.PlayAsync(token: token);
+            await _speedUp.PlayWithSpeedAsync(speed, token: token);
         }
 
         public void LifeView(int life)

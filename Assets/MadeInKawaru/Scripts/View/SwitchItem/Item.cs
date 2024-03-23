@@ -23,6 +23,7 @@ namespace MadeInKawaru.View.SwitchItem
 
         public void Initialize(Sprite item, Action<bool> callback)
         {
+            _image.rectTransform.sizeDelta = item.rect.size;
             _image.sprite = item;
             _isSwitch = false;
             IsActive = false;
@@ -31,6 +32,7 @@ namespace MadeInKawaru.View.SwitchItem
 
         public void Switch(Sprite item)
         {
+            _image.rectTransform.sizeDelta = item.rect.size;
             _image.sprite = item;
             _isSwitch = true;
         }
