@@ -22,7 +22,7 @@ namespace MadeInKawaru.Presenter.Game
         private readonly StageEntity _stageEntity;
         private readonly LifeEntity _lifeEntity;
         private readonly List<IGame> _games;
-        private readonly GameCanvas _gameCanvas;
+        private readonly GameTimerView _gameTimerView;
         private readonly GameMenuView _gameMenuView;
         private readonly CompositeDisposable _disposable = new();
         private readonly CancellationTokenSource _cancellation = new();
@@ -59,23 +59,23 @@ namespace MadeInKawaru.Presenter.Game
                     await _gameMenuView.SpeedUpAsync(_stageEntity.Speed);
                 }
 
-                var game = _games.RandomOne().Create(_gameCanvas.Transform);
+                var game = _games.RandomOne().Create(_gameTimerView.Transform);
 
                 // ステージ
                 var stage = _stageEntity.Stage;
                 // ゲームタイトル
                 await _gameMenuView.PlayAsync(game.Title, _stageEntity.Speed, _cancellation.Token);
                 // 拡大 ゲーム用Canvasの表示
-                _gameCanvas.FadeAsync(1f).Forget();
+                _gameTimerView.FadeAsync(1f).Forget();
                 // タイマーに時間を
-                _gameCanvas.TimerAsync(5, _stageEntity.Speed, _cancellation.Token).Forget();
+                _gameTimerView.TimerAsync(5, _stageEntity.Speed, _cancellation.Token).Forget();
                 var result = await game.PlayAsync(5, _stageEntity.Speed, stage, _cancellation.Token);
                 // タイマーの爆発演出待機
                 await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: _cancellation.Token);
                 // ゲーム終了
                 UniTask.Create(async () =>
                 {
-                    await _gameCanvas.FadeAsync(0);
+                    await _gameTimerView.FadeAsync(0);
                     game.Close();
                 }).Forget();
 
