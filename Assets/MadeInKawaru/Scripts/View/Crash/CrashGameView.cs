@@ -30,11 +30,11 @@ namespace MadeInKawaru.View.Crash
                 _result.Add(item, false);
                 var itemSpeed = stage switch
                 {
-                    < 5 => GetSpeed(0.5f, 2),
-                    < 10 => GetSpeed(1f, 2.5f),
-                    < 15 => GetSpeed(1f, 3f),
-                    < 20 => GetSpeed(1f, 4f),
-                    _ => GetSpeed(1f, 5f),
+                    < 5 => GetSpeed(5f, 8f),
+                    < 10 => GetSpeed(5f, 10f),
+                    < 15 => GetSpeed(5f, 12f),
+                    < 20 => GetSpeed(5f, 14f),
+                    _ => GetSpeed(5f, 16f),
                 };
                 item.Initialize(itemSpeed, OnCrash);
             }

@@ -20,7 +20,10 @@ namespace MadeInKawaru.View.Crash
         public void Initialize(float speed, Action<Item> callback)
         {
             // ランダムな方向に移動開始。摩擦は0に設定している
-            _rigidbody.AddForce(Random.insideUnitCircle.normalized * speed);
+            _rigidbody.AddForce(Random.insideUnitCircle.normalized * speed, ForceMode2D.Impulse);
+            _animator.SetBool(Crash, false);
+            _collider.enabled = true;
+            _isCrash = false;
             _callback = callback;
         }
 
