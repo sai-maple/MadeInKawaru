@@ -22,7 +22,9 @@ namespace MadeInKawaru.View.Attendance
         private readonly Dictionary<Player, string> _names = new();
         private bool _isClear;
         private Player _callTarget;
+        private AttendanceItem _player;
 
+        public float Time => 8f;
         public string Title => "代返しろ！";
 
         public IGame Create(Transform content)
@@ -43,12 +45,16 @@ namespace MadeInKawaru.View.Attendance
                 index++;
             }
 
-            _teacherView.Initialize(speed);
-            _button.onClick.AddListener(() => OnReaction(Player.Absentee));
+            _button.onClick.AddListener(() =>
+            {
+                _player.AttendanceAsync().Forget();
+                _button.onClick.RemoveAllListeners();
+            });
 
             foreach (var value in _names.RandomSort().Select((v, i) => new { v.Key, v.Value, i }))
             {
                 _items[value.i].Initialize(value.Key, value.Value, OnReaction);
+                if (value.Key == Player.Player) _player = _items[value.i];
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(interval), cancellationToken: token);
@@ -56,11 +62,11 @@ namespace MadeInKawaru.View.Attendance
             foreach (var (key, value) in _names.RandomSort().Where(v => v.Key != Player.Player))
             {
                 _callTarget = key;
-                _teacherView.Call(value);
+                _teacherView.CallAsync(value, speed, token).Forget();
                 foreach (var item in _items)
                 {
                     var delay = Random.Range(0.1f, 0.5f) / speed;
-                    item.Reaction(key, delay);
+                    item.ReactionAsync(key, delay).Forget();
                 }
 
                 await UniTask.Delay(TimeSpan.FromSeconds(interval), cancellationToken: token);

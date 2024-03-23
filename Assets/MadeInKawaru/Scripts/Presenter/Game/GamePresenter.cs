@@ -83,8 +83,8 @@ namespace MadeInKawaru.Presenter.Game
                 _gameMenuView.FadeAsync(0, token: _cancellation.Token).Forget();
 
                 // タイマーに時間を
-                _gameTimerView.TimerAsync(5, _stageEntity.Speed, _cancellation.Token).Forget();
-                var result = await game.PlayAsync(5, _stageEntity.Speed, stage, _cancellation.Token);
+                _gameTimerView.TimerAsync(game.Time, _stageEntity.Speed, _cancellation.Token).Forget();
+                var result = await game.PlayAsync(game.Time, _stageEntity.Speed, stage, _cancellation.Token);
                 // タイマーの爆発演出待機
                 await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: _cancellation.Token);
                 // ゲーム終了

@@ -21,10 +21,11 @@ namespace MadeInKawaru.View.Game
 
         public async UniTaskVoid TimerAsync(float time, float speed, CancellationToken token = default)
         {
+            var divide = time / 5f;
             var t = 0f;
             while (t < time)
             {
-                _timer.SetInteger(Timer, Mathf.CeilToInt(time - t));
+                _timer.SetInteger(Timer, Mathf.CeilToInt((time - t) / divide));
                 await UniTask.Yield(cancellationToken: token);
                 t += Time.deltaTime * speed;
             }
