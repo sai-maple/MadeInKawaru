@@ -6,6 +6,7 @@ using MadeInKawaru.Entity.Common;
 using MadeInKawaru.Entity.Game;
 using MadeInKawaru.Enums;
 using MadeInKawaru.Extensions;
+using MadeInKawaru.View.Audio;
 using MadeInKawaru.View.Game;
 using MadeInKawaru.View.Interface;
 using UniRx;
@@ -54,6 +55,7 @@ namespace MadeInKawaru.Presenter.Game
 
         private async UniTaskVoid PlayAsync()
         {
+            AudioManager.Instance.PlayBgm(BgmName.GameBgm);
             _canvasGroup.alpha = 1;
             _stageEntity.Initialize();
             _lifeEntity.Initialize();
@@ -66,9 +68,11 @@ namespace MadeInKawaru.Presenter.Game
             while (_lifeEntity.IsLiving)
             {
                 // todo イントロ
+                await AudioManager.Instance.PlayOneShotAsync(SeName.GameIntro1);
                 // スピードアップ 演出
                 if (_stageEntity.IsSpeedUp)
                 {
+                    AudioManager.Instance.PlayOneShot(SeName.SpeedUp);
                     await _gameMenuView.SpeedUpAsync(_stageEntity.Speed);
                 }
 
@@ -99,16 +103,19 @@ namespace MadeInKawaru.Presenter.Game
                 _stageEntity.OnClear(result);
                 _lifeEntity.OnClear(result);
                 _gameMenuView.LifeView(_lifeEntity.Life);
+                AudioManager.Instance.PlayOneShot(result ? SeName.Correct : SeName.Incorrect);
                 await _gameMenuView.ReactionAsync(result, _cancellation.Token);
             }
 
             // ゲームオーバー
+            AudioManager.Instance.PlayOneShot(SeName.GameOver);
             await _gameMenuView.GameOverAsync(_cancellation.Token);
             _canvasGroup.alpha = 0;
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
             // メニューに戻る
             _phaseEntity.OnNext(Phase.Menu);
+            AudioManager.Instance.PlayBgm(BgmName.MainBgm);
         }
 
         public void Dispose()

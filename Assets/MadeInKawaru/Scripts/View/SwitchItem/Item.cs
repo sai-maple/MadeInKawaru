@@ -1,4 +1,5 @@
 using System;
+using MadeInKawaru.View.Audio;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -42,7 +43,7 @@ namespace MadeInKawaru.View.SwitchItem
             if (!IsActive) return;
             _callback?.Invoke(_isSwitch);
             _correct.SetTrigger(_isSwitch ? "Correct" : "Incorrect");
-            // todo AudioManager
+            AudioManager.Instance.PlayOneShot(_isSwitch ? SeName.Positive : SeName.Negative);
         }
     }
 }

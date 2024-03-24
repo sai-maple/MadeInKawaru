@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using MadeInKawaru.Extensions;
+using MadeInKawaru.View.Audio;
 using MadeInKawaru.View.Interface;
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,7 +79,7 @@ namespace MadeInKawaru.View.Attendance
         private void OnReaction(Player player)
         {
             if (player != Player.Absentee) return;
-            // todo Audio
+            AudioManager.Instance.PlayOneShot(SeName.Positive);
             _isClear = _callTarget == Player.Absentee;
             _button.enabled = false;
         }

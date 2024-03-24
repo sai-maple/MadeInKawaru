@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using MadeInKawaru.View.Audio;
 using MadeInKawaru.View.Interface;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -46,7 +47,7 @@ namespace MadeInKawaru.View.Flower
         {
             _animator.SetBool(Bloom, true);
             _isClear = true;
-            // todo audio
+            AudioManager.Instance.PlayOneShot(SeName.Positive);
         }
     }
 }

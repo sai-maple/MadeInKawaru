@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using MadeInKawaru.Entity.Common;
 using MadeInKawaru.Enums;
+using MadeInKawaru.View.Audio;
 using MadeInKawaru.View.Menu;
 using UniRx;
 using VContainer.Unity;
@@ -42,7 +43,7 @@ namespace MadeInKawaru.Presenter.Menu
             _menuView.OnRankingAsObservable()
                 .Subscribe(_ =>
                 {
-                    // todo ボタン音
+                    AudioManager.Instance.PlayOneShot(SeName.Button);
                     _phaseEntity.OnNext(Phase.Ranking);
                 })
                 .AddTo(_disposable);
@@ -50,7 +51,7 @@ namespace MadeInKawaru.Presenter.Menu
             _menuView.OnOptionAsObservable()
                 .Subscribe(_ =>
                 {
-                    // todo ボタン音
+                    AudioManager.Instance.PlayOneShot(SeName.Button);
                     _phaseEntity.OnNext(Phase.Option);
                 })
                 .AddTo(_disposable);
