@@ -41,6 +41,11 @@ namespace MadeInKawaru.View.Crash
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
+            foreach (var item in _items)
+            {
+                item.TimeUp();
+            }
+
             return _result.Values.All(b => b);
         }
 

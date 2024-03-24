@@ -20,7 +20,7 @@ namespace MadeInKawaru.View.Flower
 
         private static readonly int Bloom = Animator.StringToHash("Bloom");
 
-        public float Time => 4f;
+        public float Time => 3f;
         public string Title => "咲かせろ！";
 
         public IGame Create(Transform content)

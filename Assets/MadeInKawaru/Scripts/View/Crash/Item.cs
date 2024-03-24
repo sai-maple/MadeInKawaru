@@ -37,6 +37,11 @@ namespace MadeInKawaru.View.Crash
             _callback?.Invoke(this);
         }
 
+        public void TimeUp()
+        {
+            _isCrash = true;
+        }
+
         private void Reset()
         {
             _rigidbody = GetComponent<Rigidbody2D>();

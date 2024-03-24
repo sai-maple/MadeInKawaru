@@ -19,7 +19,7 @@ namespace MadeInKawaru.Entity.Game
         public void OnClear(bool result)
         {
             if (result) Stage++;
-            var speed = 1 + Mathf.FloorToInt(Stage / 5f) * 0.1f;
+            var speed = 1 + Mathf.FloorToInt(Stage / 3f) * 0.1f;
             IsSpeedUp = Math.Abs(Speed - speed) > 0.1f;
             Speed = speed;
         }

@@ -37,7 +37,7 @@ namespace MadeInKawaru.View.Attendance
         {
             var names = new List<string> { "田中", "山田", "鈴木" }.RandomSort().ToList();
             var index = 0;
-            var interval = time / 4f;
+            var interval = time/ speed / 4f;
             _names.Add(Player.Player, "あなた");
             foreach (Player player in Enum.GetValues(typeof(Player)))
             {

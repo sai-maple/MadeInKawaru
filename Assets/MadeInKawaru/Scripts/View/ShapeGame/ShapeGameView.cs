@@ -16,6 +16,7 @@ namespace MadeInKawaru.View.ShapeGame
         private int _shape;
         private bool _isClear;
 
+        public float Time => 3f;
         public string Title => "揃えろ！";
 
         public IGame Create(Transform content)
