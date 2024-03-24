@@ -34,6 +34,8 @@ namespace MadeInKawaru.Presenter.Menu
                 {
                     UniTask.Create(async () =>
                     {
+                        AudioManager.Instance.PlayOneShot(SeName.GameStart);
+                        AudioManager.Instance.PlayBgm(BgmName.None);
                         await _menuView.DismissAsync();
                         _phaseEntity.OnNext(Phase.Game);
                     }).Forget();
@@ -57,7 +59,10 @@ namespace MadeInKawaru.Presenter.Menu
                 .AddTo(_disposable);
 
             _menuView.OnVolumeAsObservable()
-                .Subscribe(volume => { })
+                .Subscribe(volume =>
+                {
+                    AudioManager.Instance.VolumeChanged(0.33f * volume);
+                })
                 .AddTo(_disposable);
         }
 

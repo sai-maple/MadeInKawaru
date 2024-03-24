@@ -14,6 +14,7 @@ namespace MadeInKawaru.View.Game
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private TextMeshProUGUI _title;
         [SerializeField] private PlayableDirector _titleDirector;
+        [SerializeField] private PlayableDirector _titleDismissDirector;
         [SerializeField] private PlayableDirector _gameOver;
         [SerializeField] private PlayableDirector _speedUp;
         [SerializeField] private PlayableDirector _correct;
@@ -30,6 +31,11 @@ namespace MadeInKawaru.View.Game
         {
             _title.text = title;
             await _titleDirector.PlayWithSpeedAsync(speed, token: token);
+        }
+        
+        public async UniTask TitleDismissAsync(float speed, CancellationToken token = default)
+        {
+            await _titleDismissDirector.PlayWithSpeedAsync(speed, token: token);
         }
         
         public async UniTask SpeedUpAsync(float speed, CancellationToken token = default)

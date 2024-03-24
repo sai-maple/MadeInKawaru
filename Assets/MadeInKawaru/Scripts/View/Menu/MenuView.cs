@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using MadeInKawaru.Extensions;
+using MadeInKawaru.View.Audio;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -20,8 +21,9 @@ namespace MadeInKawaru.View.Menu
         [SerializeField] private PlayableDirector _dismiss;
         private int _volumeIndex = 2;
 
-        private void Awake()
+        private void Start()
         {
+            AudioManager.Instance.VolumeChanged(0.33f * _volumeIndex);
             for (var i = 0; i < _volumeIcons.Length; i++)
             {
                 _volumeIcons[i].enabled = i == _volumeIndex;

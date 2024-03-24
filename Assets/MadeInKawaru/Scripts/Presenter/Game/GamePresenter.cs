@@ -55,7 +55,6 @@ namespace MadeInKawaru.Presenter.Game
 
         private async UniTaskVoid PlayAsync()
         {
-            AudioManager.Instance.PlayBgm(BgmName.GameBgm);
             _canvasGroup.alpha = 1;
             _stageEntity.Initialize();
             _lifeEntity.Initialize();
@@ -67,28 +66,34 @@ namespace MadeInKawaru.Presenter.Game
 
             while (_lifeEntity.IsLiving)
             {
-                // todo イントロ
-                await AudioManager.Instance.PlayOneShotAsync(SeName.GameIntro1);
                 // スピードアップ 演出
                 if (_stageEntity.IsSpeedUp)
                 {
+                    AudioManager.Instance.Speed(_stageEntity.Speed);
                     AudioManager.Instance.PlayOneShot(SeName.SpeedUp);
                     await _gameMenuView.SpeedUpAsync(_stageEntity.Speed);
                 }
 
                 var game = _games.RandomOne().Create(_gameTimerView.Transform);
-
                 // ステージ
                 var stage = _stageEntity.Stage;
                 // ゲームタイトル
-                await _gameMenuView.PlayAsync(game.Title, _stageEntity.Speed, _cancellation.Token);
+                _gameMenuView.PlayAsync($"ステージ{stage}\n{game.Title}", _stageEntity.Speed, _cancellation.Token).Forget();
+                // todo イントロ
+                await AudioManager.Instance.PlayOneShotAsync(SeName.GameIntro1);
+                // タイトルを隠す
+                _gameMenuView.TitleDismissAsync(_stageEntity.Speed, _cancellation.Token).Forget();
                 // 拡大 ゲーム用Canvasの表示
                 _gameTimerView.FadeAsync(1f).Forget();
                 _gameMenuView.FadeAsync(0, token: _cancellation.Token).Forget();
 
                 // タイマーに時間を
                 _gameTimerView.TimerAsync(game.Time, _stageEntity.Speed, _cancellation.Token).Forget();
+                // todo 各ゲームにBgm入れたい
+                AudioManager.Instance.PlayBgm(game.BgmName, 0);
                 var result = await game.PlayAsync(game.Time, _stageEntity.Speed, stage, _cancellation.Token);
+                AudioManager.Instance.PlayBgm(BgmName.None);
+
                 // タイマーの爆発演出待機
                 await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: _cancellation.Token);
                 // ゲーム終了
@@ -108,6 +113,7 @@ namespace MadeInKawaru.Presenter.Game
             }
 
             // ゲームオーバー
+            AudioManager.Instance.Speed(1);
             AudioManager.Instance.PlayOneShot(SeName.GameOver);
             await _gameMenuView.GameOverAsync(_cancellation.Token);
             _canvasGroup.alpha = 0;

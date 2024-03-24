@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using MadeInKawaru.View.Audio;
 using MadeInKawaru.View.Interface;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -56,6 +57,8 @@ namespace MadeInKawaru.View.Crash
         private void OnCrash(Item sender)
         {
             _result[sender] = true;
+            // todo 割れる音
+            AudioManager.Instance.PlayOneShot(_result.Values.All(b => b) ? SeName.Positive : SeName.Positive);
         }
     }
 }

@@ -79,8 +79,8 @@ namespace MadeInKawaru.View.Attendance
         private void OnReaction(Player player)
         {
             if (player != Player.Absentee) return;
-            AudioManager.Instance.PlayOneShot(SeName.Positive);
             _isClear = _callTarget == Player.Absentee;
+            AudioManager.Instance.PlayOneShot(_isClear ? SeName.Positive : SeName.Negative);
             _button.enabled = false;
         }
 

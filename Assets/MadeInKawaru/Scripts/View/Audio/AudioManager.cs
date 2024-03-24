@@ -9,6 +9,7 @@ namespace MadeInKawaru.View.Audio
     public enum SeName
     {
         Button,
+        GameStart,
 
         GameIntro1,
         GameIntro2,
@@ -36,7 +37,7 @@ namespace MadeInKawaru.View.Audio
         private readonly Dictionary<SeName, AudioClip> _audioClips = new();
         private float _volume = 0.2f;
 
-        public void Initialize()
+        private void Awake()
         {
             Instance = this;
             PlayBgm(BgmName.MainBgm);
@@ -54,10 +55,10 @@ namespace MadeInKawaru.View.Audio
             _audioSource.pitch = speed;
         }
 
-        public async void PlayBgm(BgmName bgm)
+        public async void PlayBgm(BgmName bgm, float delay = 0.5f)
         {
             PlayerPrefs.SetInt("Bgm", (int)bgm);
-            await _audioSource.DOFade(0, 0.5f);
+            await _audioSource.DOFade(0, delay);
             if (bgm == BgmName.None)
             {
                 _audioSource.Stop();
@@ -67,12 +68,22 @@ namespace MadeInKawaru.View.Audio
             var bgmClip = await Resources.LoadAsync<AudioClip>($"AudioClips/Bgm/{bgm}") as AudioClip;
             _audioSource.clip = bgmClip;
             _audioSource.Play();
-            await _audioSource.DOFade(_volume, 0.5f);
+            await _audioSource.DOFade(_volume, delay);
         }
 
         public async UniTask PlayOneShotAsync(SeName seName)
         {
-            PlayOneShot(seName);
+            if (_audioClips.ContainsKey(seName))
+            {
+                await UniTask.WaitUntil(() => _audioClips[seName] != null);
+                _audioSource.PlayOneShot(_audioClips[seName]);
+                await UniTask.Delay(TimeSpan.FromSeconds(_audioClips[seName].length));
+                return;
+            }
+
+            var result = await Resources.LoadAsync<AudioClip>($"AudioClips/Se/{seName}") as AudioClip;
+            _audioSource.PlayOneShot(result);
+            _audioClips.Add(seName, result);
             await UniTask.Delay(TimeSpan.FromSeconds(_audioClips[seName].length));
         }
 
