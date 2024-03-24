@@ -87,11 +87,13 @@ namespace MadeInKawaru.Presenter.Game
 
             while (_lifeEntity.IsLiving)
             {
+                var intro = SeName.GameIntro1;
                 // スピードアップ 演出
                 if (_stageEntity.IsSpeedUp)
                 {
                     AudioManager.Instance.Speed(_stageEntity.Speed);
                     AudioManager.Instance.PlayOneShot(SeName.SpeedUp);
+                    intro = SeName.GameIntro2;
                     await _gameMenuView.SpeedUpAsync(_stageEntity.Speed);
                 }
 
@@ -101,7 +103,7 @@ namespace MadeInKawaru.Presenter.Game
                 // ゲームタイトル
                 _gameMenuView.PlayAsync($"ステージ{stage}\n{game.Title}", _stageEntity.Speed, _cancellation.Token).Forget();
                 // todo イントロ
-                await AudioManager.Instance.PlayOneShotAsync(SeName.GameIntro1);
+                await AudioManager.Instance.PlayOneShotAsync(intro);
                 // タイトルを隠す
                 _gameMenuView.TitleDismissAsync(_stageEntity.Speed, _cancellation.Token).Forget();
                 // 拡大 ゲーム用Canvasの表示
@@ -110,7 +112,6 @@ namespace MadeInKawaru.Presenter.Game
 
                 // タイマーに時間を
                 _gameTimerView.TimerAsync(game.Time, _stageEntity.Speed, _cancellation.Token).Forget();
-                // todo 各ゲームにBgm入れたい
                 AudioManager.Instance.PlayBgm(game.BgmName, 0);
                 var result = await game.PlayAsync(game.Time, _stageEntity.Speed, stage, _cancellation.Token);
                 AudioManager.Instance.PlayBgm(BgmName.None);
@@ -141,8 +142,7 @@ namespace MadeInKawaru.Presenter.Game
             UnityroomApiClient.Instance.SendScore(1, _stageEntity.Stage, ScoreboardWriteMode.HighScoreDesc);
             // リザルト表示
             _resultView.FadeIn(_stageEntity.Stage).Forget();
-            // todo
-            AudioManager.Instance.PlayBgm(BgmName.MainBgm);
+            AudioManager.Instance.PlayBgm(BgmName.Result);
         }
 
         public void Dispose()

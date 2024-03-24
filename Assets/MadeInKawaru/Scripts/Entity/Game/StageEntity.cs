@@ -20,6 +20,7 @@ namespace MadeInKawaru.Entity.Game
         {
             if (result) Stage++;
             var speed = 1 + Mathf.FloorToInt(Stage / 3f) * 0.1f;
+            speed = Mathf.Min(2f, speed);
             IsSpeedUp = Math.Abs(Speed - speed) > 0.05f;
             Speed = speed;
         }

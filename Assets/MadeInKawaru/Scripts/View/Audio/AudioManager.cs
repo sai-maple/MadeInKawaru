@@ -26,6 +26,7 @@ namespace MadeInKawaru.View.Audio
         None,
         MainBgm,
         GameBgm,
+        Result
     }
 
     [RequireComponent(typeof(AudioSource))]
@@ -52,7 +53,8 @@ namespace MadeInKawaru.View.Audio
 
         public void Speed(float speed)
         {
-            _audioSource.pitch = speed;
+            var diff = speed - 1; 
+            _audioSource.pitch = 1 + diff / 2f;
         }
 
         public async void PlayBgm(BgmName bgm, float delay = 0.5f)

@@ -62,8 +62,7 @@ namespace MadeInKawaru.View.Crash
         private void OnCrash(Item sender)
         {
             _result[sender] = true;
-            // todo 割れる音
-            AudioManager.Instance.PlayOneShot(_result.Values.All(b => b) ? SeName.Positive : SeName.Positive);
+            AudioManager.Instance.PlayOneShot(SeName.Positive);
         }
     }
 }
