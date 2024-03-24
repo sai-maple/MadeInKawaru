@@ -45,6 +45,7 @@ namespace MadeInKawaru.View.Discount
             {
                 return;
             }
+
             var diff = position - _startTap;
             _rectTransform.localPosition = _start + diff;
             // かさなり
