@@ -54,6 +54,11 @@ namespace MadeInKawaru.View.Game
             _life.SetInteger(Life, life);
         }
 
+        public void HideLife(bool hide)
+        {
+            _life.gameObject.SetActive(!hide);
+        }
+
         public async UniTask GameOverAsync(CancellationToken token = default)
         {
             // ライフの減少演出待機

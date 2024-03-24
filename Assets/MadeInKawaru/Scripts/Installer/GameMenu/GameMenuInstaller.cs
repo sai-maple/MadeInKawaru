@@ -14,6 +14,7 @@ namespace MadeInKawaru.Installer.GameMenu
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private GameMenuView _gameMenuView;
         [SerializeField] private GameTimerView _timerView;
+        [SerializeField] private ResultView _resultView;
         [SerializeField] private List<GameObject> _games;
         
         protected override void Configure(IContainerBuilder builder)
@@ -22,6 +23,7 @@ namespace MadeInKawaru.Installer.GameMenu
             builder.RegisterComponent(_canvasGroup);
             builder.RegisterComponent(_gameMenuView);
             builder.RegisterComponent(_timerView);
+            builder.RegisterComponent(_resultView);
             builder.RegisterComponent(_games.Select(obj => obj.GetComponent<IGame>()).ToList());
         }
     }

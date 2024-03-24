@@ -26,12 +26,13 @@ namespace MadeInKawaru.Presenter.Game
         private readonly List<IGame> _games;
         private readonly GameTimerView _gameTimerView;
         private readonly GameMenuView _gameMenuView;
+        private readonly ResultView _resultView;
         private readonly CanvasGroup _canvasGroup;
         private readonly CompositeDisposable _disposable = new();
         private readonly CancellationTokenSource _cancellation = new();
 
         public GamePresenter(PhaseEntity phaseEntity, StageEntity stageEntity, LifeEntity lifeEntity, List<IGame> games,
-            GameTimerView gameTimerView, GameMenuView gameMenuView, CanvasGroup canvasGroup)
+            GameTimerView gameTimerView, GameMenuView gameMenuView, ResultView resultView, CanvasGroup canvasGroup)
         {
             _phaseEntity = phaseEntity;
             _stageEntity = stageEntity;
@@ -39,6 +40,7 @@ namespace MadeInKawaru.Presenter.Game
             _games = games;
             _gameTimerView = gameTimerView;
             _gameMenuView = gameMenuView;
+            _resultView = resultView;
             _canvasGroup = canvasGroup;
         }
 
@@ -47,10 +49,26 @@ namespace MadeInKawaru.Presenter.Game
             _canvasGroup.alpha = 0;
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
+            _resultView.FadeOut();
             _phaseEntity.OnPhaseChangedAsObservable()
                 .Where(phase => phase == Phase.Game)
                 .Subscribe(_ => PlayAsync().Forget())
                 .AddTo(_disposable);
+
+            _resultView.Initialize(() =>
+                {
+                    _resultView.FadeOut(0.3f);
+                    _phaseEntity.OnNext(Phase.Menu);
+                    AudioManager.Instance.PlayBgm(BgmName.MainBgm);
+                    _canvasGroup.alpha = 0;
+                    _canvasGroup.interactable = false;
+                    _canvasGroup.blocksRaycasts = false;
+                },
+                () =>
+                {
+                    naichilab.UnityRoomTweet.Tweet("kawaru_advance", $"かわるアドバンスの{_stageEntity.Stage}まで到達しました。",
+                        "unity1week");
+                });
         }
 
         private async UniTaskVoid PlayAsync()
@@ -59,7 +77,9 @@ namespace MadeInKawaru.Presenter.Game
             _stageEntity.Initialize();
             _lifeEntity.Initialize();
             _gameMenuView.LifeView(_lifeEntity.Life);
+            _gameMenuView.HideLife(false);
             _gameTimerView.FadeAsync(0, 0).Forget();
+            _resultView.FadeOut();
             await _gameMenuView.FadeAsync(1, token: _cancellation.Token);
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
@@ -113,14 +133,13 @@ namespace MadeInKawaru.Presenter.Game
             }
 
             // ゲームオーバー
+            _gameMenuView.HideLife(true);
             AudioManager.Instance.Speed(1);
             AudioManager.Instance.PlayOneShot(SeName.GameOver);
             await _gameMenuView.GameOverAsync(_cancellation.Token);
-            _canvasGroup.alpha = 0;
-            _canvasGroup.interactable = false;
-            _canvasGroup.blocksRaycasts = false;
-            // メニューに戻る
-            _phaseEntity.OnNext(Phase.Menu);
+            // リザルト表示
+            _resultView.FadeIn(_stageEntity.Stage).Forget();
+            // todo
             AudioManager.Instance.PlayBgm(BgmName.MainBgm);
         }
 

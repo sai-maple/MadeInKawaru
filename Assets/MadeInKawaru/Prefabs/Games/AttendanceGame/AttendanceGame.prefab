@@ -101,7 +101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8FD4\u4E8B"
+  m_text: "\u8FD4\u4E8B\u3092\u3059\u308B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1738503f9481f42b29d2298267930362, type: 2}
   m_sharedMaterial: {fileID: -8556546476109805361, guid: 1738503f9481f42b29d2298267930362, type: 2}
@@ -2290,7 +2290,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 300, y: -130}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4646632859273361753
 CanvasRenderer:

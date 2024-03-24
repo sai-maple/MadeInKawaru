@@ -7,6 +7,5 @@ namespace MadeInKawaru.Enums
         Ranking,
         Option,
         Game,
-        Result
     }
 }
