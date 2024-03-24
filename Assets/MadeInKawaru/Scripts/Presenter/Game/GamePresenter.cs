@@ -11,6 +11,7 @@ using MadeInKawaru.View.Game;
 using MadeInKawaru.View.Interface;
 using UniRx;
 using UnityEngine;
+using unityroom.Api;
 using VContainer.Unity;
 
 namespace MadeInKawaru.Presenter.Game
@@ -137,6 +138,7 @@ namespace MadeInKawaru.Presenter.Game
             AudioManager.Instance.Speed(1);
             AudioManager.Instance.PlayOneShot(SeName.GameOver);
             await _gameMenuView.GameOverAsync(_cancellation.Token);
+            UnityroomApiClient.Instance.SendScore(1, _stageEntity.Stage, ScoreboardWriteMode.HighScoreDesc);
             // リザルト表示
             _resultView.FadeIn(_stageEntity.Stage).Forget();
             // todo
